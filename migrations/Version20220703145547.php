@@ -38,6 +38,15 @@ final class Version20220703145547 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
+        $this->addSql(/** @lang sql */ "DELETE FROM camping_equipment WHERE code = 'CAR_E'");
+        $this->addSql(/** @lang sql */ "DELETE FROM camping_equipment WHERE code = 'CAM_E'");
+        $this->addSql(/** @lang sql */ "DELETE FROM camping_equipment WHERE code = 'TENT_E'");
+        $this->addSql(/** @lang sql */ "DELETE FROM camping_equipment WHERE code = 'CAR_NO_E'");
+        $this->addSql(/** @lang sql */ "DELETE FROM camping_equipment WHERE code = 'CAM_NO_E'");
+        $this->addSql(/** @lang sql */ "DELETE FROM camping_equipment WHERE code = 'TENT_NO_E'");
+
+        $this->addSql(/** @lang sql */ "DELETE FROM payment_method WHERE code = 'CARD'");
+        $this->addSql(/** @lang sql */ "DELETE FROM payment_method WHERE code = 'CASH'");
+        $this->addSql(/** @lang sql */ "DELETE FROM payment_method WHERE code = 'TRANSFER'");
     }
 }

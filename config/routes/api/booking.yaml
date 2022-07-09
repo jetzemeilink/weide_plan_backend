@@ -1,0 +1,4 @@
+create_booking:
+  path: /booking
+  controller: App\Controller\Api\BookingController::createBooking
+  methods: POST
