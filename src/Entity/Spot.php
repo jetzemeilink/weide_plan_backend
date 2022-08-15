@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\SpotRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SpotRepository::class)]
@@ -13,28 +11,35 @@ class Spot
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private int $id;
+    private $id;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private string $size;
+    #[ORM\Column(type: 'string', length: 255)]
+    private $code;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private string $distance_electricity;
+    #[ORM\Column(type: 'string', length: 255)]
+    private $size;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $distanceElectricity;
 
     #[ORM\Column(type: 'boolean')]
-    private bool $isSeasonSpot;
-
-    #[ORM\ManyToMany(targetEntity: Booking::class, mappedBy: 'spotId')]
-    private Collection $bookings;
-
-    public function __construct()
-    {
-        $this->bookings = new ArrayCollection();
-    }
+    private $isSeasonSpot;
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(string $code): self
+    {
+        $this->code = $code;
+
+        return $this;
     }
 
     public function getSize(): ?string
@@ -42,7 +47,7 @@ class Spot
         return $this->size;
     }
 
-    public function setSize(?string $size): self
+    public function setSize(string $size): self
     {
         $this->size = $size;
 
@@ -51,12 +56,12 @@ class Spot
 
     public function getDistanceElectricity(): ?string
     {
-        return $this->distance_electricity;
+        return $this->distanceElectricity;
     }
 
-    public function setDistanceElectricity(?string $distance_electricity): self
+    public function setDistanceElectricity(string $distanceElectricity): self
     {
-        $this->distance_electricity = $distance_electricity;
+        $this->distanceElectricity = $distanceElectricity;
 
         return $this;
     }
@@ -69,32 +74,6 @@ class Spot
     public function setIsSeasonSpot(bool $isSeasonSpot): self
     {
         $this->isSeasonSpot = $isSeasonSpot;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Booking>
-     */
-    public function getBookings(): Collection
-    {
-        return $this->bookings;
-    }
-
-    public function addBooking(Booking $booking): self
-    {
-        if (!$this->bookings->contains($booking)) {
-            $this->bookings[] = $booking;
-        }
-
-        return $this;
-    }
-
-    public function removeBooking(Booking $booking): self
-    {
-        if ($this->bookings->contains($booking)) {
-            $this->bookings->remove($booking);
-        }
 
         return $this;
     }

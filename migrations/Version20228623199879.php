@@ -6,11 +6,12 @@ namespace DoctrineMigrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
+use NumberFormatter;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20220703145547 extends AbstractMigration
+final class Version20228623199879 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -26,9 +27,13 @@ final class Version20220703145547 extends AbstractMigration
         $this->addSql(/** @lang sql */ "INSERT INTO camping_equipment (`code`, `description`, `has_electricity`) VALUES ('CAM_NO_E', 'Camper zonder stroom', 0)");
         $this->addSql(/** @lang sql */ "INSERT INTO camping_equipment (`code`, `description`, `has_electricity`) VALUES ('TENT_NO_E', 'Tent zonder stroom', 0)");
 
-      // Temporarily fill all the spots with same data
-        for ($i = 0; $i < 20; $i++) {
-            $this->addSql(/** @lang sql */ "INSERT INTO spot (`size`, `distance_electricity`, `is_season_spot`) VALUES ('5 x 4', '20m', 0)");
+        $numberOfSpots = 17;
+        $formatter = new NumberFormatter("en_EN", NumberFormatter::SPELLOUT);
+
+        for ($i = 1; $i < $numberOfSpots; $i++) {
+            $code = strtoupper($formatter->format($i));
+            // TODO make migration to add accurate size & electricity distance data
+            $this->addSql(/** @lang sql */ "INSERT INTO spot (`code`, `size`, `distance_electricity`, `is_season_spot`) VALUES ('$code', '5 x 4', '20m', 0)");
     }
 
         $this->addSql(/** @lang sql */ "INSERT INTO payment_method (`code`, `description`, `additional_cost_pct`) VALUES ('CARD', 'Pinnen', 2.0)");

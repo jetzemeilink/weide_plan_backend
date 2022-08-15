@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\PaymentMethodRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PaymentMethodRepository::class)]
@@ -22,15 +20,7 @@ class PaymentMethod
     private $description;
 
     #[ORM\Column(type: 'float')]
-    private float $additionalCostPct;
-
-    #[ORM\OneToMany(mappedBy: 'paymentMethod', targetEntity: Invoice::class)]
-    private $invoices;
-
-    public function __construct()
-    {
-        $this->invoices = new ArrayCollection();
-    }
+    private $additionalCostPct;
 
     public function getId(): ?int
     {
@@ -66,39 +56,9 @@ class PaymentMethod
         return $this->additionalCostPct;
     }
 
-    public function setAdditionalCostPct(float $additional_cost_pct): self
+    public function setAdditionalCostPct(float $additionalCostPct): self
     {
-        $this->additionalCostPct = $additional_cost_pct;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Invoice>
-     */
-    public function getInvoices(): Collection
-    {
-        return $this->invoices;
-    }
-
-    public function addInvoice(Invoice $invoice): self
-    {
-        if (!$this->invoices->contains($invoice)) {
-            $this->invoices[] = $invoice;
-            $invoice->setPaymentMethod($this);
-        }
-
-        return $this;
-    }
-
-    public function removeInvoice(Invoice $invoice): self
-    {
-        if ($this->invoices->removeElement($invoice)) {
-            // set the owning side to null (unless already changed)
-            if ($invoice->getPaymentMethod() === $this) {
-                $invoice->setPaymentMethod(null);
-            }
-        }
+        $this->additionalCostPct = $additionalCostPct;
 
         return $this;
     }

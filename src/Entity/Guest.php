@@ -16,22 +16,16 @@ class Guest
     #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
+    #[ORM\OneToOne(mappedBy: 'guest', targetEntity: Address::class, cascade: ['persist', 'remove'])]
+    private $address;
+
     #[ORM\Column(type: 'integer')]
     private $numberOfPax;
-
-    #[ORM\Column(type: 'string', length: 255)]
-    private $city;
-
-    #[ORM\Column(type: 'string', length: 255)]
-    private $zipcode;
 
     #[ORM\Column(type: 'boolean')]
     private $hasDog;
 
-    #[ORM\OneToOne(mappedBy: 'guestId', targetEntity: Invoice::class, cascade: ['persist', 'remove'])]
-    private $invoice;
-
-    #[ORM\OneToOne(mappedBy: 'guest_id', targetEntity: Booking::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(mappedBy: 'guest', targetEntity: Booking::class, cascade: ['persist', 'remove'])]
     private $booking;
 
     public function getId(): ?int
@@ -51,6 +45,28 @@ class Guest
         return $this;
     }
 
+    public function getAddress(): ?Address
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?Address $address): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($address === null && $this->address !== null) {
+            $this->address->setGuest(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($address !== null && $address->getGuest() !== $this) {
+            $address->setGuest($this);
+        }
+
+        $this->address = $address;
+
+        return $this;
+    }
+
     public function getNumberOfPax(): ?int
     {
         return $this->numberOfPax;
@@ -63,30 +79,6 @@ class Guest
         return $this;
     }
 
-    public function getCity(): ?string
-    {
-        return $this->city;
-    }
-
-    public function setCity(string $city): self
-    {
-        $this->city = $city;
-
-        return $this;
-    }
-
-    public function getZipcode(): ?string
-    {
-        return $this->zipcode;
-    }
-
-    public function setZipcode(string $zipcode): self
-    {
-        $this->zipcode = $zipcode;
-
-        return $this;
-    }
-
     public function isHasDog(): ?bool
     {
         return $this->hasDog;
@@ -95,28 +87,6 @@ class Guest
     public function setHasDog(bool $hasDog): self
     {
         $this->hasDog = $hasDog;
-
-        return $this;
-    }
-
-    public function getInvoice(): ?Invoice
-    {
-        return $this->invoice;
-    }
-
-    public function setInvoice(?Invoice $invoice): self
-    {
-        // unset the owning side of the relation if necessary
-        if ($invoice === null && $this->invoice !== null) {
-            $this->invoice->setGuestId(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($invoice !== null && $invoice->getGuest() !== $this) {
-            $invoice->setGuest($this);
-        }
-
-        $this->invoice = $invoice;
 
         return $this;
     }

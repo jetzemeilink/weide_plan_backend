@@ -11,16 +11,16 @@ class CampingEquipment
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private int $id;
+    private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private string $code;
+    private $code;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private string $description;
+    private $description;
 
     #[ORM\Column(type: 'boolean')]
-    private bool $hasElectricity;
+    private $hasElectricity;
 
     public function getId(): ?int
     {

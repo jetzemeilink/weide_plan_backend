@@ -11,61 +11,32 @@ class Invoice
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private int $id;
+    private $id;
 
-    #[ORM\OneToOne(inversedBy: 'invoice', targetEntity: Guest::class, cascade: ['persist', 'remove'])]
-    private Guest $guest;
+    #[ORM\Column(type: 'float')]
+    private $amount;
 
-    #[ORM\Column(type: 'integer')]
-    private int $amountBruto;
-
-    #[ORM\Column(type: 'integer')]
-    private int $AmountNetto;
-
-    #[ORM\ManyToOne(targetEntity: PaymentMethod::class, inversedBy: 'invoices')]
+    #[ORM\ManyToOne(targetEntity: PaymentMethod::class)]
     #[ORM\JoinColumn(nullable: false)]
-    private PaymentMethod $paymentMethod;
+    private $paymentMethod;
 
-    #[ORM\OneToOne(mappedBy: 'invoiceId', targetEntity: Booking::class, cascade: ['persist', 'remove'])]
-    private Booking $booking;
+    #[ORM\OneToOne(targetEntity: Booking::class, cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private $booking;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getGuest(): ?Guest
+    public function getAmount(): ?float
     {
-        return $this->guest;
+        return $this->amount;
     }
 
-    public function setGuest(?Guest $guest): self
+    public function setAmount(float $amount): self
     {
-        $this->guest = $guest;
-
-        return $this;
-    }
-
-    public function getAmountBruto(): ?int
-    {
-        return $this->amountBruto;
-    }
-
-    public function setAmountBruto(int $amountBruto): self
-    {
-        $this->amountBruto = $amountBruto;
-
-        return $this;
-    }
-
-    public function getAmountNetto(): ?int
-    {
-        return $this->AmountNetto;
-    }
-
-    public function setAmountNetto(int $AmountNetto): self
-    {
-        $this->AmountNetto = $AmountNetto;
+        $this->amount = $amount;
 
         return $this;
     }
@@ -87,13 +58,8 @@ class Invoice
         return $this->booking;
     }
 
-    public function setBooking(?Booking $booking): self
+    public function setBooking(Booking $booking): self
     {
-        // set the owning side of the relation if necessary
-        if ($booking !== null && $booking->getInvoice() !== $this) {
-            $booking->setInvoice($this);
-        }
-
         $this->booking = $booking;
 
         return $this;

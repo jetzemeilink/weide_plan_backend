@@ -17,6 +17,10 @@ framework:
     php_errors:
         log: true
 
+    serializer:
+        default_context:
+
+
 when@test:
     framework:
         test: true

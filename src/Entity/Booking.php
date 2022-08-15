@@ -3,8 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\BookingRepository;
-use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 #[ORM\Entity(repositoryClass: BookingRepository::class)]
 class Booking
@@ -12,30 +12,31 @@ class Booking
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private int $id;
+    private $id;
 
     #[ORM\OneToOne(inversedBy: 'booking', targetEntity: Guest::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    private Guest $guest;
+    private $guest;
 
-    #[ORM\ManyToOne(targetEntity: Spot::class, cascade: ['persist', 'remove'], inversedBy: 'booking')]
-    private Spot $spot;
+    #[ORM\ManyToOne(targetEntity: Spot::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private $spot;
 
     #[ORM\ManyToOne(targetEntity: CampingEquipment::class)]
     #[ORM\JoinColumn(nullable: false)]
-    private CampingEquipment $campingEquipment;
+    private $campingEquipment;
 
-    #[ORM\OneToOne(inversedBy: 'booking', targetEntity: Invoice::class, cascade: ['persist', 'remove'])]
-    private Invoice $invoice;
-
-    #[ORM\Column(type: 'datetime')]
-    private DateTimeInterface $arrivalDate;
+    #[ORM\OneToOne(targetEntity: Invoice::class, cascade: ['persist', 'remove'])]
+    private $invoice;
 
     #[ORM\Column(type: 'datetime')]
-    private DateTimeInterface $departureDate;
+    private $arrivalDate;
+
+    #[ORM\Column(type: 'datetime')]
+    private $departureDate;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private string $comment;
+    private $comment;
 
     public function getId(): ?int
     {
@@ -54,15 +55,16 @@ class Booking
         return $this;
     }
 
-    public function getSpot(): Spot
+    public function getSpot(): ?Spot
     {
         return $this->spot;
     }
 
-    public function setSpot(Spot $spot): self {
-       $this->spot = $spot;
+    public function setSpot(?Spot $spot): self
+    {
+        $this->spot = $spot;
 
-       return $this;
+        return $this;
     }
 
     public function getCampingEquipment(): ?CampingEquipment
@@ -89,24 +91,24 @@ class Booking
         return $this;
     }
 
-    public function getArrivalDate(): ?DateTimeInterface
+    public function getArrivalDate(): ?\DateTimeInterface
     {
         return $this->arrivalDate;
     }
 
-    public function setArrivalDate(DateTimeInterface $arrivalDate): self
+    public function setArrivalDate(\DateTimeInterface $arrivalDate): self
     {
         $this->arrivalDate = $arrivalDate;
 
         return $this;
     }
 
-    public function getDepartureDate(): ?DateTimeInterface
+    public function getDepartureDate(): ?\DateTimeInterface
     {
         return $this->departureDate;
     }
 
-    public function setDepartureDate(DateTimeInterface $departureDate): self
+    public function setDepartureDate(\DateTimeInterface $departureDate): self
     {
         $this->departureDate = $departureDate;
 
