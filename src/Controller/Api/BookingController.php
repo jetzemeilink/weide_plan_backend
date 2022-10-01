@@ -3,7 +3,9 @@
 namespace App\Controller\Api;
 
 use App\Application\Service\BookingApplicationService;
+use App\Shared\Helpers\Mapper;
 use App\Type\Request\CreateBookingRequest;
+use App\Type\View\BookingView;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,8 +27,6 @@ class BookingController extends AbstractController
             $request->attributes->get('createGuestRequest'),
             $request->attributes->get('createAddressRequest'));
 
-
-        // TODO Fix circular reference bug (custom serializer/normalizer?)
-        return $this->json($booking);
+        return $this->json(Mapper::mapSingle($booking, BookingView::class));
     }
 }
