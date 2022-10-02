@@ -1,0 +1,6 @@
+type PaymentMethod {
+    id: ID!
+    code: String!
+    description: String!
+    additionalCostPct: Float!
+}

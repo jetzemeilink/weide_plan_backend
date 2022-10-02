@@ -1,0 +1,6 @@
+type Spot {
+    id: ID!
+    code: String!
+    distanceElectricity: String!
+    isSeasonSpot: Boolean!
+}

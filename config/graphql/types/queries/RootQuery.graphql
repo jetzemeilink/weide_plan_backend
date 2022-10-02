@@ -1,0 +1,10 @@
+type RootQuery {
+    bookings: [Booking]
+    booking(id: ID!): Booking
+    guests: [Guest]
+    guest(id: ID!): Guest
+    spots: [Spot]
+    spot(id: ID!): Spot
+    paymentMethods: [PaymentMethod]
+    paymentMethod(id: ID!): PaymentMethod
+}

@@ -1,0 +1,6 @@
+type Invoice {
+    id: ID!
+    paymentMethod: PaymentMethod!
+    booking: Booking!
+    amount: Float!
+}
