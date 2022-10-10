@@ -3,9 +3,7 @@
 namespace App\Controller\Api;
 
 use App\Application\Service\BookingApplicationService;
-use App\Shared\Helpers\Mapper;
 use App\Type\Request\CreateBookingRequest;
-use App\Type\View\BookingView;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,11 +20,12 @@ class BookingController extends AbstractController
      */
     public function createBooking(Request $request, CreateBookingRequest $createBookingRequest): Response
     {
-        $booking = $this->bookingApplicationService->createBooking(
-            $request->attributes->get('createBookingRequest'),
-            $request->attributes->get('createGuestRequest'),
-            $request->attributes->get('createAddressRequest'));
 
-        return $this->json(Mapper::mapSingle($booking, BookingView::class));
+        $bookingView = $this->bookingApplicationService->createBooking(
+            $createBookingRequest,
+            $request->get('guestId'),
+            $request->get('addressId'));
+
+        return $this->json($bookingView);
     }
 }

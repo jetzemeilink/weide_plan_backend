@@ -2,7 +2,7 @@
 
 namespace App\Type\View;
 
-use DateTime;
+use DateTimeInterface;
 
 class BookingView
 {
@@ -10,7 +10,7 @@ class BookingView
     public ?SpotView $spot = null;
     public ?CampingEquipmentView $campingEquipment = null;
     public ?InvoiceView $invoice = null;
-    public ?DateTime $arrivalDate = null;
-    public ?DateTime $departureDate = null;
+    public ?DateTimeInterface $arrivalDate = null;
+    public ?DateTimeInterface $departureDate = null;
     public ?string $comment = null;
 }

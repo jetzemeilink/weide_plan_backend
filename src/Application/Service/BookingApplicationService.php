@@ -5,17 +5,21 @@ namespace App\Application\Service;
 use App\Domain\Service\AddressDomainService;
 use App\Domain\Service\BookingDomainService;
 use App\Domain\Service\GuestDomainService;
+use App\Entity\Address;
 use App\Entity\Booking;
 use App\Entity\CampingEquipment;
+use App\Entity\Guest;
 use App\Entity\Spot;
+use App\Repository\AddressRepository;
 use App\Repository\CampingEquipmentRepository;
+use App\Repository\GuestRepository;
 use App\Repository\SpotRepository;
-use App\Type\Request\CreateAddressRequest;
 use App\Type\Request\CreateBookingRequest;
-use App\Type\Request\CreateGuestRequest;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use Exception;
+use App\Shared\Helpers\Mapper;
+use App\Type\View\BookingView;
 
 class BookingApplicationService
 {
@@ -23,7 +27,9 @@ class BookingApplicationService
         private SpotRepository $spotRepository,
         private BookingDomainService $bookingDomainService,
         private AddressDomainService $addressDomainService,
+        private AddressRepository $addressRepository,
         private GuestDomainService $guestDomainService,
+        private GuestRepository $guestRepository,
         private CampingEquipmentRepository $campingEquipmentRepository,
         private EntityManagerInterface $em
     )
@@ -32,22 +38,29 @@ class BookingApplicationService
 
     public function createBooking(
         CreateBookingRequest $createBookingRequest,
-        CreateGuestRequest $createGuestRequest,
-        CreateAddressRequest $createAddressRequest
-    ): Booking
+        int $guestId,
+        int $addressId
+    ): BookingView
     {
         $spot = $this->spotRepository->findOneBy(['code' => $createBookingRequest->spotCode]);
         $campingEquipment = $this->campingEquipmentRepository->findOneBy(['code' => $createBookingRequest->campingEquipmentCode]);
-        $address = $this->addressDomainService->createAddress($createAddressRequest);
-        $guest = $this->guestDomainService->createGuest($createGuestRequest, $address);
+        $address = $this->addressRepository->find($addressId);
+        $guest = $this->guestRepository->find($guestId);
 
+        if (!$guest instanceof Guest) {
+            throw new EntityNotFoundException("No guest found with provided id");
+        }
+
+        if (!$address instanceof Address) {
+            throw new EntityNotFoundException("No address found with provided id");
+        }
 
         if (!$spot instanceof Spot) {
-            throw new EntityNotFoundException("No know spot found with provided id");
+            throw new EntityNotFoundException("No spot found with provided id");
         }
 
         if (!$campingEquipment instanceof CampingEquipment) {
-            throw new EntityNotFoundException("No know camping equipment found with provided id");
+            throw new EntityNotFoundException("No camping equipment found with provided id");
         }
 
         $this->em->beginTransaction();
@@ -59,7 +72,7 @@ class BookingApplicationService
             $this->em->flush();
             $this->em->commit();
 
-            return $booking;
+            return Mapper::mapSingle($booking, BookingView::class);
         } catch(Exception $e) {
             $this->em->getConnection()->rollBack();
 

@@ -20,6 +20,3 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-    App\Resolver\ResolverMap\MainResolver:
-        tags:
-            - { name: overblog_graphql.resolver_map, schema: default,  }

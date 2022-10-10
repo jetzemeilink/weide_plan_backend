@@ -66,7 +66,7 @@ class Spot
         return $this;
     }
 
-    public function isIsSeasonSpot(): ?bool
+    public function getIsSeasonSpot(): ?bool
     {
         return $this->isSeasonSpot;
     }

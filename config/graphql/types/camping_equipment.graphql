@@ -1,6 +1,0 @@
-type CampingEquipment {
-    id: ID!
-    code: String!
-    description: String!
-    hasElectricity: Boolean!
-}

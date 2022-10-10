@@ -1,6 +1,0 @@
-type Guest {
-    id: ID!
-    name: String!
-    numberOfPax: Int!
-    hasDog: Boolean!
-}

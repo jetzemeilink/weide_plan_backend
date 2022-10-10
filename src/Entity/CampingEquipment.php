@@ -51,7 +51,7 @@ class CampingEquipment
         return $this;
     }
 
-    public function isHasElectricity(): ?bool
+    public function getHasElectricity(): ?bool
     {
         return $this->hasElectricity;
     }

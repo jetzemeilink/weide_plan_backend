@@ -79,7 +79,7 @@ class Guest
         return $this;
     }
 
-    public function isHasDog(): ?bool
+    public function getHasDog(): ?bool
     {
         return $this->hasDog;
     }
