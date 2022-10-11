@@ -3,24 +3,24 @@
 namespace App\Tests\UnitTests\ApplicationLayer;
 
 use App\Application\Service\BookingApplicationService;
+use App\Tests\Factory\AddressFactory;
 use App\Type\Request\CreateBookingRequest;
 use Doctrine\ORM\EntityNotFoundException;
-use \App\Tests\TestCase;
+use \App\Tests\BaseTestCase;
 
-class BookingApplicationServiceTest extends TestCase
+class BookingApplicationServiceTest extends BaseTestCase
 {
+  private BookingApplicationService $applicationService;
 
-  public function __construct(private BookingApplicationService $bookingApplicationService)
+  protected function setUp(): void
   {
-  }
-  // protected function setUp(): void
-  // {
-  //   parent::setUp();
+    parent::setUp();
 
-  //   $this->applicationService = self::container
+    $this->applicationService = self::getContainer()->get(BookingApplicationService::class);
     
-  // }
-  public function testCannotCreateBookiingWithNonExistentGuest(): void
+  }
+
+  public function testCannotCreateBookingWithNonExistentGuest(): void
   {
     $this->expectException(EntityNotFoundException::class);
 
@@ -30,8 +30,8 @@ class BookingApplicationServiceTest extends TestCase
     $bookingRequest->spotCode = 'FOUR';
     $bookingRequest->campingEquipmentCode = 'CAR_E';
 
-    
+    $address = AddressFactory::createOne()->object();
   
-    $this->bookingApplicationService->createBooking($bookingRequest);
+    $this->applicationService->createBooking($bookingRequest, $address->getId(), 999999);
   }
 }

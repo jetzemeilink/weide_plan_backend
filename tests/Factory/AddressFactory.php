@@ -39,16 +39,10 @@ final class AddressFactory extends ModelFactory
     protected function getDefaults(): array
     {
         return [
-            // TODO add your default values here (https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#model-factories)
+            'street' => self::faker()->streetName(),
+            'city' => self::faker()->city(),
+            'zipCode' => self::faker()->postcode()
         ];
-    }
-
-    protected function initialize(): self
-    {
-        // see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#initialization
-        return $this
-            // ->afterInstantiate(function(Address $address): void {})
-        ;
     }
 
     protected static function getClass(): string
