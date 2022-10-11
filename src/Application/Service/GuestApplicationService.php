@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Application\Service;
+
 use App\Domain\Service\GuestDomainService;
 use App\Entity\Address;
 use App\Entity\Guest;
@@ -9,6 +11,7 @@ use App\Type\Request\CreateGuestRequest;
 use App\Type\View\GuestView;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
+use Exception;
 
 class GuestApplicationService
 {
@@ -38,7 +41,7 @@ class GuestApplicationService
       $this->em->flush();
 
       return Mapper::mapSingle($guest, Guest::class);
-    } catch(Error $error) {
+    } catch(Exception $error) {
         $this->em->rollback();
 
         throw $error;
