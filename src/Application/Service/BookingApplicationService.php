@@ -6,7 +6,6 @@ use App\Domain\Service\AddressDomainService;
 use App\Domain\Service\BookingDomainService;
 use App\Domain\Service\GuestDomainService;
 use App\Entity\Address;
-use App\Entity\Booking;
 use App\Entity\CampingEquipment;
 use App\Entity\Guest;
 use App\Entity\Spot;
@@ -67,6 +66,10 @@ class BookingApplicationService
 
         try {
             $booking = $this->bookingDomainService->createBooking($createBookingRequest,$spot, $guest, $campingEquipment);
+
+            $booking->setSpot($spot)
+            ->setGuest($guest)
+            ->setCampingEquipment($campingEquipment);
 
             $this->em->persist($booking);
             $this->em->flush();

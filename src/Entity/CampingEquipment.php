@@ -22,6 +22,13 @@ class CampingEquipment
     #[ORM\Column(type: 'boolean')]
     private $hasElectricity;
 
+    const CARAVAN_ELECTRIC = 'CAR_E';
+    const CAMPER_ELECTRIC = 'CAM_E';
+    const TENT_ELECTRIC = 'TENT_E';
+    const CARAVAN_NOT_ELECTRIC = 'CAR_NO_E';
+    const CAMPER_NOT_ELECTRIC = 'CAM_NO_E';
+    const TENT_NOT_ELECTRIC = 'TENT_NO_E';
+
     public function getId(): ?int
     {
         return $this->id;

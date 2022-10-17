@@ -4,7 +4,6 @@ namespace App\Application\Service;
 
 use App\Domain\Service\GuestDomainService;
 use App\Entity\Address;
-use App\Entity\Guest;
 use App\Repository\AddressRepository;
 use App\Shared\Helpers\Mapper;
 use App\Type\Request\CreateGuestRequest;
@@ -35,12 +34,14 @@ class GuestApplicationService
     $this->em->beginTransaction();
 
     try {
-      $guest = $this->guestDomainService->createGuest($createGuestRequest, $address);
+      $guest = $this->guestDomainService->createGuest($createGuestRequest);
+
+      $guest->setAddress($address);
 
       $this->em->commit($guest);
       $this->em->flush();
 
-      return Mapper::mapSingle($guest, Guest::class);
+      return Mapper::mapSingle($guest, GuestView::class);
     } catch(Exception $error) {
         $this->em->rollback();
 

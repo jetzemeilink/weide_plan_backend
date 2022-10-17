@@ -3,27 +3,27 @@
 namespace App\Domain\Service;
 
 use App\Entity\Booking;
-use App\Entity\CampingEquipment;
-use App\Entity\Guest;
-use App\Entity\Spot;
+use App\Shared\Helpers\DateValidation;
 use App\Type\Request\CreateBookingRequest;
 use DateTime;
+use InvalidArgumentException;
 
 class BookingDomainService
 {
 
-    public function createBooking(
-        CreateBookingRequest $createBookingRequest,
-        Spot $spot,
-        Guest $guest,
-        CampingEquipment $campingEquipment): Booking
+    public function createBooking(CreateBookingRequest $createBookingRequest): Booking
     {
         $booking = new Booking();
 
-        $booking->setSpot($spot)
-            ->setGuest($guest)
-            ->setCampingEquipment($campingEquipment)
-            ->setArrivalDate(new DateTime($createBookingRequest->arrivalDate))
+        if (!DateValidation::isValidDate($createBookingRequest->arrivalDate)) {
+            throw new InvalidArgumentException("Invalid date format");
+        }
+
+        if (!DateValidation::isValidDate($createBookingRequest->departureDate)) {
+            throw new InvalidArgumentException("Invalid date format");
+        }
+
+        $booking->setArrivalDate(new DateTime($createBookingRequest->arrivalDate))
             ->setDepartureDate(new DateTime($createBookingRequest->departureDate))
             ->setComment($createBookingRequest->comment);
 

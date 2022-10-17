@@ -25,6 +25,23 @@ class Spot
     #[ORM\Column(type: 'boolean')]
     private $isSeasonSpot;
 
+    const ONE = 'ONE';
+    const TWO = 'TWO';
+    const THREE = 'THREE';
+    const FOUR = 'FOUR';
+    const FIVE = 'FIVE'; 
+    const SIX = 'SIX';
+
+    const SEVEN = 'SEVEN';
+    const EIGHT = 'EIGHT';
+    const NINE = 'NINE';
+    const TEN = 'TEN';
+    const ELEVEN = 'ELEVEN';
+    const TWELVE = 'TWELVE';
+    const THIRTEEN = 'THIRTEEN';
+    const FOURTEEN = 'FOURTEEN';
+    const FIVTEEN = 'FIVTEEN';
+    const SIXTEEN = 'SIXTEEN';
     public function getId(): ?int
     {
         return $this->id;
