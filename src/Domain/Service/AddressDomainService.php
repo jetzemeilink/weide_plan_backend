@@ -11,9 +11,9 @@ class AddressDomainService
     {
         $address = new Address();
 
-        $address->setStreet($createAddressRequest->street);
-        $address->setCity($createAddressRequest->city);
-        $address->setZipCode($createAddressRequest->zipCode);
+        $address->setStreet($createAddressRequest->street)
+        ->setCity($createAddressRequest->city)
+        ->setZipCode($createAddressRequest->zipCode);
 
         return $address;
     }

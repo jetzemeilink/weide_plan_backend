@@ -39,7 +39,7 @@ class BookingDomainServiceTest extends BaseTestCase
     $this->bookingDomainService->createBooking($bookingRequest);
   }
 
-  public function testCannotCreateBookingWithValidInput(): void
+  public function testCanCreateBookingWithValidInput(): void
   {
     $bookingRequest = new CreateBookingRequest();
     $bookingRequest->arrivalDate = $this->faker->dateTime()->format('d-m-Y');
