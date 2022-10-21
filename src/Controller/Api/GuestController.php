@@ -17,11 +17,16 @@ class GuestController extends AbstractController
 
   public function createGuest(Request $request, CreateGuestRequest $createGuestRequest): Response
   {
-
-  
     $guestView = $this->guestApplicationService->createGuest($createGuestRequest);
 
     return $this->json($guestView);
+  }
+
+  public function getGuest(Request $request): Response
+  {
+    $guest = $this->guestApplicationService->getGuest($request->get('guestId'));
+
+    return $this->json($guest);
   }
 }
 

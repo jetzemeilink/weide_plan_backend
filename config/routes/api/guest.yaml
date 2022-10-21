@@ -1,0 +1,9 @@
+create_guest:
+  path: /guest
+  controller: App\Controller\Api\GuestController::createGuest
+  methods: POST
+
+get_guest:
+  path: /guest/{guest}
+  controller: App\Controller\Api\GuestControlle::getGuest
+  methods: GET

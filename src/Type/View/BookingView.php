@@ -6,6 +6,7 @@ use DateTimeInterface;
 
 class BookingView
 {
+    public ?int $id = null;
     public ?GuestView $guest = null;
     public ?SpotView $spot = null;
     public ?CampingEquipmentView $campingEquipment = null;

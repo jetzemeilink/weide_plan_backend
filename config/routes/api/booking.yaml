@@ -2,3 +2,8 @@ create_booking:
   path: /booking
   controller: App\Controller\Api\BookingController::createBooking
   methods: POST
+
+get_booking: 
+  path: /booking/{booking}
+  controller: App\Controller\Api\BookingController::getBooking
+  methods: GET

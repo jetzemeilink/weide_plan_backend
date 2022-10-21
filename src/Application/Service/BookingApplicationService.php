@@ -6,10 +6,12 @@ use App\Domain\Service\AddressDomainService;
 use App\Domain\Service\BookingDomainService;
 use App\Domain\Service\GuestDomainService;
 use App\Entity\Address;
+use App\Entity\Booking;
 use App\Entity\CampingEquipment;
 use App\Entity\Guest;
 use App\Entity\Spot;
 use App\Repository\AddressRepository;
+use App\Repository\BookingRepository;
 use App\Repository\CampingEquipmentRepository;
 use App\Repository\GuestRepository;
 use App\Repository\SpotRepository;
@@ -30,6 +32,7 @@ class BookingApplicationService
         private GuestDomainService $guestDomainService,
         private GuestRepository $guestRepository,
         private CampingEquipmentRepository $campingEquipmentRepository,
+        private BookingRepository $bookingRepository,
         private EntityManagerInterface $em
     )
     {
@@ -81,5 +84,16 @@ class BookingApplicationService
 
             throw $e;
         }
+    }
+
+    public function getBooking(int $bookingId): BookingView
+    {
+        $booking = $this->bookingRepository->find($bookingId);
+
+        if (!$booking instanceof Booking) {
+            throw new EntityNotFoundException('No booking found with the provided id');
+        }
+
+        return Mapper::mapSingle($booking, BookingView::class);
     }
 }

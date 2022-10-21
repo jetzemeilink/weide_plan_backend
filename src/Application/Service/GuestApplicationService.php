@@ -4,7 +4,9 @@ namespace App\Application\Service;
 
 use App\Domain\Service\GuestDomainService;
 use App\Entity\Address;
+use App\Entity\Guest;
 use App\Repository\AddressRepository;
+use App\Repository\GuestRepository;
 use App\Shared\Helpers\Mapper;
 use App\Type\Request\CreateGuestRequest;
 use App\Type\View\GuestView;
@@ -18,11 +20,11 @@ class GuestApplicationService
   public function __construct(
     private EntityManagerInterface $em, 
     private AddressRepository $addressRepository, 
+    private GuestRepository $guestRepository,
     private GuestDomainService $guestDomainService
     )
   {
   }
-
   public function createGuest(CreateGuestRequest $createGuestRequest): GuestView
   {
     $address = $this->addressRepository->find($createGuestRequest->addressId);
@@ -47,5 +49,16 @@ class GuestApplicationService
 
         throw $error;
     }
+  }
+
+  public function getGuest(int $guestId): GuestView
+  {
+    $guest = $this->guestRepository->find($guestId);
+  
+    if (!$guest instanceof Guest) {
+      throw new EntityNotFoundException('No guest found with the provided id');
+    }
+
+    return Mapper::mapSingle($guest, GuestView::class);
   }
 }

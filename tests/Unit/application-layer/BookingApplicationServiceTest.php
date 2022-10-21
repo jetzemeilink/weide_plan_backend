@@ -11,13 +11,14 @@ use App\Tests\Factory\AddressFactory;
 use App\Type\Request\CreateBookingRequest;
 use Doctrine\ORM\EntityNotFoundException;
 use \App\Tests\BaseTestCase;
+use App\Tests\Factory\BookingFactory;
 use App\Tests\Factory\GuestFactory;
 use InvalidArgumentException;
 use App\Type\View\BookingView;
 
 class BookingApplicationServiceTest extends BaseTestCase
 {
-  private BookingApplicationService $applicationService;
+  private BookingApplicationService $bookingApplicationService;
   private Address $address;
   private Guest $guest;
 
@@ -25,7 +26,7 @@ class BookingApplicationServiceTest extends BaseTestCase
   {
     parent::setUp();
 
-    $this->applicationService = self::getContainer()->get(BookingApplicationService::class);
+    $this->bookingApplicationService = self::getContainer()->get(BookingApplicationService::class);
 
     $this->address = AddressFactory::createOne()->object();
     $this->guest = GuestFactory::createOne()->object();
@@ -41,7 +42,7 @@ class BookingApplicationServiceTest extends BaseTestCase
     $bookingRequest->spotCode = Spot::FIVE;
     $bookingRequest->campingEquipmentCode = CampingEquipment::CAMPER_ELECTRIC;
   
-    $this->applicationService->createBooking($bookingRequest, 999999, $this->address->getId());
+    $this->bookingApplicationService->createBooking($bookingRequest, 999999, $this->address->getId());
   }
 
   public function testCannotCreateBookingWithNonExistentSpot(): void
@@ -54,7 +55,7 @@ class BookingApplicationServiceTest extends BaseTestCase
     $bookingRequest->spotCode = 'DOES NOT EXIST';
     $bookingRequest->campingEquipmentCode = CampingEquipment::CAMPER_ELECTRIC;
 
-    $this->applicationService->createBooking($bookingRequest, 999999, $this->address->getId());
+    $this->bookingApplicationService->createBooking($bookingRequest, 999999, $this->address->getId());
   }
 
   public function testCannotCreateBookingWithNonExistentCampingEquipment(): void
@@ -67,7 +68,7 @@ class BookingApplicationServiceTest extends BaseTestCase
     $bookingRequest->spotCode = Spot::FIVE;
     $bookingRequest->campingEquipmentCode = 'DOES NOT EXIST';
 
-    $this->applicationService->createBooking($bookingRequest, 999999, $this->address->getId());
+    $this->bookingApplicationService->createBooking($bookingRequest, 999999, $this->address->getId());
   }
 
   public function testCannotCreateBookingWithNonExistentAddress(): void
@@ -80,7 +81,7 @@ class BookingApplicationServiceTest extends BaseTestCase
     $bookingRequest->spotCode = Spot::FIVE;
     $bookingRequest->campingEquipmentCode = CampingEquipment::CAMPER_ELECTRIC;
 
-    $this->applicationService->createBooking($bookingRequest, $this->guest->getId(), 999999);
+    $this->bookingApplicationService->createBooking($bookingRequest, $this->guest->getId(), 999999);
   }
 
   public function testCanCreateBookingWithValidInput(): void
@@ -91,8 +92,25 @@ class BookingApplicationServiceTest extends BaseTestCase
     $bookingRequest->spotCode = Spot::FIVE;
     $bookingRequest->campingEquipmentCode = CampingEquipment::CAMPER_ELECTRIC;
 
-    $result = $this->applicationService->createBooking($bookingRequest, $this->guest->getId(), $this->address->getId());
+    $result = $this->bookingApplicationService->createBooking($bookingRequest, $this->guest->getId(), $this->address->getId());
 
     $this->assertInstanceOf(BookingView::class, $result);
+  }
+
+  public function testCannotGetBookingWithInvalidId(): void
+  {
+    $this->expectException(EntityNotFoundException::class);
+
+    $this->bookingApplicationService->getBooking(9999999);
+  }
+
+  public function testCanGetBookingWithValidId(): void
+  {
+    $booking = BookingFactory::createOne();
+
+    $result = $this->bookingApplicationService->getBooking($booking->getId());
+
+    $this->assertInstanceOf(BookingView::class, $result);
+    $this->assertSame($booking->getId(), $result->id);
   }
 }

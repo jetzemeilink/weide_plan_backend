@@ -1,0 +1,9 @@
+create_address:
+  path: /address
+  controller: App\Controller\Api\AddressController::createAddress
+  methods: POST
+
+get_address:
+  path: /address/{id}
+  controller: App\Controller\Api\AddressController::getAddress
+  methods: GET

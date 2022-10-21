@@ -32,9 +32,13 @@ final class BookingFactory extends ModelFactory
     protected function getDefaults(): array
     {
         return [
-            // TODO add your default values here (https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#model-factories)
-            'arrivalDate' => null, // TODO add DATETIME ORM type manually
-            'departureDate' => null, // TODO add DATETIME ORM type manually
+          
+            'arrivalDate' => self::faker()->dateTime(),
+            'departureDate' => self::faker()->dateTime(),
+            'comment' => self::faker()->text(),
+            'spot' => SpotFactory::createOne(),
+            'campingEquipment' => CampingEquipmentFactory::createOne(),
+            'guest' => GuestFactory::createOne()
         ];
     }
 
