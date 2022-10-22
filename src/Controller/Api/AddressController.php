@@ -28,14 +28,10 @@ class AddressController extends AbstractController
     return $this->json($address);
   }
 
-
-  // TODO get entity from db only through Depency Injection
-    /**
-   * @ParamConverter(name="RequestParamConverter", class="Address")
-   */
-  public function getAddress(Address $request): Response
+  public function getAddress(Request $request): Response
   {
-    dd($request);
-    // return $this->json($address);
+    $address = $this->addressApplicationService->getAddress($request->get('id'));
+
+    return $this->json($address);
   }
 }

@@ -4,6 +4,6 @@ create_guest:
   methods: POST
 
 get_guest:
-  path: /guest/{guest}
-  controller: App\Controller\Api\GuestControlle::getGuest
+  path: /guest/{id}
+  controller: App\Controller\Api\GuestController::getGuest
   methods: GET

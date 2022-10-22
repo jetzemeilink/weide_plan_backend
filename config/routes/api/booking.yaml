@@ -4,6 +4,6 @@ create_booking:
   methods: POST
 
 get_booking: 
-  path: /booking/{booking}
+  path: /booking/{id}
   controller: App\Controller\Api\BookingController::getBooking
   methods: GET

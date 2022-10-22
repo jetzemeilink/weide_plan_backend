@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use App\Application\Service\GuestApplicationService;
 use Symfony\Component\HttpFoundation\Request;
 use App\Type\Request\CreateGuestRequest;
@@ -15,6 +16,9 @@ class GuestController extends AbstractController
   {
   }
 
+      /**
+     * @ParamConverter(name="RequestParamConverter", class="CreateGuestRequest")
+     */
   public function createGuest(Request $request, CreateGuestRequest $createGuestRequest): Response
   {
     $guestView = $this->guestApplicationService->createGuest($createGuestRequest);
@@ -24,7 +28,7 @@ class GuestController extends AbstractController
 
   public function getGuest(Request $request): Response
   {
-    $guest = $this->guestApplicationService->getGuest($request->get('guestId'));
+    $guest = $this->guestApplicationService->getGuest($request->get('id'));
 
     return $this->json($guest);
   }

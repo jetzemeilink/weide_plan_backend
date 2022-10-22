@@ -30,7 +30,7 @@ class BookingController extends AbstractController
 
     public function getBooking(Request $request): Response
     {
-        $booking = $this->bookingApplicationService->getBooking($request->get('bookingId'));
+        $booking = $this->bookingApplicationService->getBooking($request->get('id'));
 
         return $this->json($booking);
     }
