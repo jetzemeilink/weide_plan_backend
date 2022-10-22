@@ -68,7 +68,7 @@ class BookingApplicationService
         $this->em->beginTransaction();
 
         try {
-            $booking = $this->bookingDomainService->createBooking($createBookingRequest,$spot, $guest, $campingEquipment);
+            $booking = $this->bookingDomainService->createBooking($createBookingRequest);
 
             $booking->setSpot($spot)
             ->setGuest($guest)
