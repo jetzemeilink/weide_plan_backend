@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Tests\Unit\ApplicationLayer;
+
 use App\Application\Service\GuestApplicationService;
 use App\Entity\Address;
 use App\Tests\BaseTestCase;

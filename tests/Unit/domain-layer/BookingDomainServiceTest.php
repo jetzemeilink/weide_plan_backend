@@ -1,9 +1,12 @@
 <?php
 
+namespace App\Tests\Unit\DomainLayer;
+
 use App\Domain\Service\BookingDomainService;
 use App\Entity\Booking;
 use App\Tests\BaseTestCase;
 use App\Type\Request\CreateBookingRequest;
+use InvalidArgumentException;
 
 class BookingDomainServiceTest extends BaseTestCase
 {

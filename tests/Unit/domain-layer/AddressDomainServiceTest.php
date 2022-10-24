@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Tests\Unit\DomainLayer;
+
 use App\Domain\Service\AddressDomainService;
 use App\Entity\Address;
 use App\Tests\BaseTestCase;

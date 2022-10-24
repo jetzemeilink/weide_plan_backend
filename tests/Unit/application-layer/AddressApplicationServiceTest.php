@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Tests\Unit\ApplicationLayer;
+
 use App\Application\Service\AddressApplicationService;
 use App\Tests\BaseTestCase;
 use App\Tests\Factory\AddressFactory;

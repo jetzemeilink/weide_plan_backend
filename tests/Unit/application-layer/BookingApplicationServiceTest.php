@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\UnitTests\ApplicationLayer;
+namespace App\Tests\Unit\ApplicationLayer;
 
 use App\Application\Service\BookingApplicationService;
 use App\Entity\Address;
